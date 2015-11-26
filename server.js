@@ -56,9 +56,12 @@ var rootPath = process.cwd(),
         "Referer" : "https://www.jikexueyuan.com",
         "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
         //"Cookie": querystring.stringify(cookie, '; ', '='),
-        "Cookie": "stat_uuid=1443680969816101767455; code=QI5FCX; level_id=3; is_expire=0; domain=7912760454; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1443621917,1443622606,1443660574,1444092125; _ga=GA1.2.988074457.1443680990; undefined=; connect.sid=s%3AcqQor_DrJ9OyPRPGxsEWMCVWlgBs75Se.GNfjpgpwhuTE%2FU69vlANfGLQ8QfALxrhxKOborfS8%2Fo; QINGCLOUDELB=37e16e60f0cd051b754b0acf9bdfd4b5d562b81daa2a899c46d3a1e304c7eb2b|VhMaE|VhMYv; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1444092461; _gat=1; MECHAT_LVTime=1444092461576; MECHAT_CKID=cookieVal=006600144368096075457246; stat_fromWebUrl=; stat_ssid=1444334905956; stat_isNew=0; uname=jike_1325794; uid=4191045; authcode=7d36Tc77U2I6%2F9vdZSOZzcrjvs6x%2FpW1CAljwAYpqiHhEeVngzHM8cC4u9XsDfqwcpJ3B0LlbuRQlqyWTSyyfqp%2BPZgs4RP9Wac5ysiLS%2BKLbYnVrdutfWQIwpj65pLf"
+        "Cookie": "stat_uuid=1448431777546632295352; stat_fromWebUrl=; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=16f56xfd8W9dqHBd8KFyr1%2BiONF%2FslsuNXTadzNYUB1oqSe17lfFy3Jjtoa9kI5ksY5YDTld2ULR3IfNZjgNHy2sy%2FuYJ3%2FS3wEbJYVuff%2BlOmx6M9Nobjh5KYtEQu7Z; level_id=3; is_expire=0; domain=7912760454; undefined=; stat_isNew=0; _ga=GA1.2.661554090.1447228532; _gat=1; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1447228533,1448358204,1448431668,1448435953; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1448505653; MECHAT_LVTime=1448505653452; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|VlZxO|VlZxN; connect.sid=s%3AQCuElbu2uJVn8ukv-uV8t4P5bHH0DUQ4.6QOZVE1WFSd5pSXzSPwFP5MhFthgs2zHF2WQe5M9pzc; MECHAT_CKID=cookieVal=006600144533895193666809; bannerswitch=close"
     },
     downloadPath = function(filename, url, Path, cb){
+        if( fs.existsSync(Path) ){
+            return;
+        }
         if(url){
             try{
                 http.get(url, function(res){
