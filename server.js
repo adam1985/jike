@@ -58,15 +58,26 @@ var rootPath = process.cwd(),
         //"Cookie": querystring.stringify(cookie, '; ', '='),
         "Cookie": "stat_uuid=1448431777546632295352; stat_fromWebUrl=; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=16f56xfd8W9dqHBd8KFyr1%2BiONF%2FslsuNXTadzNYUB1oqSe17lfFy3Jjtoa9kI5ksY5YDTld2ULR3IfNZjgNHy2sy%2FuYJ3%2FS3wEbJYVuff%2BlOmx6M9Nobjh5KYtEQu7Z; level_id=3; is_expire=0; domain=7912760454; undefined=; stat_isNew=0; _ga=GA1.2.661554090.1447228532; _gat=1; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1447228533,1448358204,1448431668,1448435953; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1448505653; MECHAT_LVTime=1448505653452; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|VlZxO|VlZxN; connect.sid=s%3AQCuElbu2uJVn8ukv-uV8t4P5bHH0DUQ4.6QOZVE1WFSd5pSXzSPwFP5MhFthgs2zHF2WQe5M9pzc; MECHAT_CKID=cookieVal=006600144533895193666809; bannerswitch=close"
     },
-    downloadPath = function(filename, url, Path, cb){
-        if( fs.existsSync(Path) ){
+
+    downloadRes = function(course_id, path, cb){
+        ng.get("http://www.jikexueyuan.com/course/downloadRes?course_id=" + course_id, function (data) {
+            var jsonData = JSON.parse(data), rex = /\/([a-z0-9_-]+\.zip)\?download/i;
+            if(jsonData.code == 200 && jsonData.data.url ){
+                var filename = rex.exec(jsonData.data.url)[1];
+                downloadPath(filename, jsonData.data.url, path, cb)
+            }
+        }, headers, 'utf-8');
+    },
+    downloadPath = function(filename, url, path, cb){
+        var filepath =  path + "/" + filename;
+        if( fs.existsSync( filepath ) ){
             return;
         }
         if(url){
             try{
                 http.get(url, function(res){
                     if( res.statusCode == 302){
-                        downloadPath(filename, res.headers.location, Path, cb);
+                        downloadPath(filename, res.headers.location, path, cb);
                     } else {
                         var fileData = "";
                         res.setEncoding("binary"); 
@@ -79,7 +90,7 @@ var rootPath = process.cwd(),
                             });
 
                             res.on("end", function(){
-                                fs.writeFile(Path, fileData, "binary", function(err){
+                                fs.writeFile(filepath, fileData, "binary", function(err){
                                     if(err){
                                         console.log(filename + '下载失败~~');
                                     } else {
@@ -98,7 +109,7 @@ var rootPath = process.cwd(),
 
                 });
             }catch(e){
-                downloadPath(filename, url, Path, cb);
+                downloadPath(filename, url, path, cb);
             }
         } else {
             console.log("下载地址错误:"+url);
@@ -152,12 +163,12 @@ var rootPath = process.cwd(),
                         
                         if(videoIndex > 0){
                             url = video.attr('href');
-                            filename = video.text();
+                            filename = (videoIndex + 1 ) + "." + video.text() + ".mp4";
                             ng.get(url, function (data2) {
                                 var $$ = cheerio.load(data2);
                                 downUrl = $$('source').attr('src');
                                 console.log(filename, downUrl);
-                                downloadPath(filename, downUrl, learnPath + '/' + filename + ".mp4", function(status){
+                                downloadPath(filename, downUrl, learnPath , function(status){
                                     console.log(filename+"course complete download~~");
                                     videoIndex++;
                                     arg2.callee();
@@ -165,10 +176,10 @@ var rootPath = process.cwd(),
                             }, headers, 'utf-8');
 
                         } else {
-                                filename = video.text();
+                                filename = (videoIndex + 1 ) + "." + video.text() + ".mp4";
                                 downUrl = $('source').attr('src');
                                 console.log(filename, downUrl);
-                                downloadPath(filename, downUrl, learnPath + '/' + filename + ".mp4", function(status){
+                                downloadPath(filename, downUrl, learnPath, function(status){
                                     console.log(filename+"course complete download~~");
                                     videoIndex++;
                                     arg2.callee();
@@ -176,10 +187,19 @@ var rootPath = process.cwd(),
                         }
                     } else {
                         console.log(title+"course complete download~~");
-                        readyDws.push(learn_uuids[learn_index]);
-                        fs.writeFileSync(logPath, JSON.stringify(readyDws));
-                        learn_index++;
-                        arg.callee();
+                        console.log(title + "，配课资料开始下载~~");
+                        downloadRes(learn_uuids[learn_index], learnPath, function(success){
+                            if(success){
+                                console.log(title + "，配课资料下载成功~~");
+                            } else {
+                                console.log(title + "，配课资料下载失败~~");
+                            }
+                            readyDws.push(learn_uuids[learn_index]);
+                            fs.writeFileSync(logPath, JSON.stringify(readyDws));
+                            learn_index++;
+                            arg.callee();
+                        });
+
                     }
                 }());
 
