@@ -56,12 +56,12 @@ var rootPath = process.cwd(),
         "Referer" : "https://www.jikexueyuan.com",
         "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
         //"Cookie": querystring.stringify(cookie, '; ', '='),
-        "Cookie": "stat_uuid=1448431777546632295352; stat_fromWebUrl=; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=16f56xfd8W9dqHBd8KFyr1%2BiONF%2FslsuNXTadzNYUB1oqSe17lfFy3Jjtoa9kI5ksY5YDTld2ULR3IfNZjgNHy2sy%2FuYJ3%2FS3wEbJYVuff%2BlOmx6M9Nobjh5KYtEQu7Z; level_id=3; is_expire=0; domain=7912760454; undefined=; stat_isNew=0; _ga=GA1.2.661554090.1447228532; _gat=1; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1447228533,1448358204,1448431668,1448435953; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1448505653; MECHAT_LVTime=1448505653452; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|VlZxO|VlZxN; connect.sid=s%3AQCuElbu2uJVn8ukv-uV8t4P5bHH0DUQ4.6QOZVE1WFSd5pSXzSPwFP5MhFthgs2zHF2WQe5M9pzc; MECHAT_CKID=cookieVal=006600144533895193666809; bannerswitch=close"
+        "Cookie": "lianbo=yes; stat_uuid=1445845156817839678469; CNZZDATA5889659=cnzz_eid%3D432765354-1448164358-http%253A%252F%252Fbzclk.baidu.com%252F%26ntime%3D1448164358; JXM703471=1; lzstat_uv=33914167892320931350|2994045; bannerswitch=close; stat_fromWebUrl=; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=a306LU0AsUjlbU6aygeOnM%2F2qj9UIcq4Ijy%2B3uH9EcPaoPxf4Km9fjpg2muc%2BaQttMApg2oJ1%2BwDflLFK1P9i%2FAJq4FxSE7S2DwML50MODcrFhd%2FKEr4gLUCXRxd4Psm; level_id=3; is_expire=0; domain=7912760454; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1447217107,1448676234; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1448681577; _ga=GA1.2.62326505.1445845445; undefined=; stat_isNew=0; connect.sid=s%3A-S5BHbc5sO7vx5ghfwoW8yJUBjyTINnI.%2FC4YL%2FrWjbFBLVnAu5dZHO%2FGmaiHgCkgoD1HQFpRqBA; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|Vllgy|Vllcu"
     },
 
     downloadRes = function(course_id, path, cb){
         ng.get("http://www.jikexueyuan.com/course/downloadRes?course_id=" + course_id, function (data) {
-            var jsonData = JSON.parse(data), rex = /\/([a-z0-9_-]+\.zip)\?download/i;
+            var jsonData = JSON.parse(data), rex = /\/([a-z0-9_-]+\.\w+)\?download/i;
             if(jsonData.code == 200 && jsonData.data.url ){
                 var filename = rex.exec(jsonData.data.url)[1];
                 downloadPath(filename, jsonData.data.url, path, cb)
@@ -71,6 +71,7 @@ var rootPath = process.cwd(),
     downloadPath = function(filename, url, path, cb){
         var filepath =  path + "/" + filename;
         if( fs.existsSync( filepath ) ){
+            cb(1);
             return;
         }
         if(url){
