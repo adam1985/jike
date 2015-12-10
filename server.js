@@ -65,6 +65,8 @@ var rootPath = process.cwd(),
             if(jsonData.code == 200 && jsonData.data.url ){
                 var filename = rex.exec(jsonData.data.url)[1];
                 downloadPath(filename, jsonData.data.url, path, cb)
+            } else {
+                cb(false);
             }
         }, headers, 'utf-8');
     },
