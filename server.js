@@ -61,7 +61,7 @@ var rootPath = process.cwd(),
 
     downloadRes = function(course_id, path, cb){
         ng.get("http://www.jikexueyuan.com/course/downloadRes?course_id=" + course_id, function (data) {
-            var jsonData = JSON.parse(data), rex = /\/([a-z0-9_-]+\.\w+)\?download/i;
+            var jsonData = JSON.parse(data), rex = /file\/([\w\W]+\.\w+)\?download/i;
             if(jsonData.code == 200 && jsonData.data.url ){
                 var filename = rex.exec(jsonData.data.url)[1];
                 downloadPath(filename, jsonData.data.url, path, cb)
