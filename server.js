@@ -146,7 +146,7 @@ var rootPath = process.cwd(),
             ng.get(learnUrl + learn_uuids[learn_index] + ".html?ss=" + ss, function (data) {
                 
                 var $ = cheerio.load(data),
-                title = $('h1').text().replace(/:|\//g, "-"),
+                title = $('h1').text().replace(/[^\u4e00-\u9fa5\w-\s]/g, "-"),
                 videolist = $('.video-list h2 a'),
                 learnPath = path + '/' + title,
                 videoLength = videolist.length,
