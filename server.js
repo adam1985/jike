@@ -36,19 +36,6 @@ var rootPath = process.cwd(),
     }());
 
     path = pathMode.normalize( rootPath + '/download' ),
-    cookie = {
-        "code": "QI5FCX",
-        "authcode": "6caf9w0ADYsdVdQ4Rpriw8gSYxVBf4XKnxREeXwBzUMI4hv%2B2J246Fv0Qf%2F4KaCiCDlmvx%2FkBUhFxyf8hW0VDR%2Bra9XLEBwxMbgnkiPf8RvBf2jl4axQhQn91MFBqQA0",
-        "domain": "7912760454",
-        "is_expire": "0",
-        "level_id": "3",
-        "mobileid": "006600144366138566201499",
-        "stat_isNew": "1",
-        "stat_ssid": "1443985627912",
-        "stat_uuid": "1443661419711818352746",
-        "uid": "4191045",
-        "uname": "jike_1325794"
-    },
     // querystring.stringify(cookie, '; ', '=')
     headers = {
         "Host" : "www.jikexueyuan.com",
@@ -56,7 +43,7 @@ var rootPath = process.cwd(),
         "Referer" : "https://www.jikexueyuan.com",
         "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
         //"Cookie": querystring.stringify(cookie, '; ', '='),
-        "Cookie": "stat_uuid=1448431777546632295352; _gat=1; stat_fromWebUrl=; stat_ssid=1450336726427; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=0d4cHWiAj4n213H5LsbTyjjeYiB%2FweQAiibBiWpB7kykMDwi0dGtXkmUuSS4Uz5%2BWYlMPXWslUOcodjGkEqHGG4QoTP8PSHGnP8Y8W%2B6dV6dw6lTe6M7JBZIHAIbLdXz; level_id=3; is_expire=0; domain=7912760454; _ga=GA1.2.661554090.1447228532; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1448435953,1448946003,1449046287,1449733790; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1449733816; undefined=; stat_isNew=0; MECHAT_LVTime=1449733816712; MECHAT_CKID=cookieVal=006600144533895193666809; connect.sid=s%3AWnJuca3dhAKPIaj7pE4gYVl9tvsbpCr2.Ben70B0kft6rGXPdcQsrh5RT6YO1J26XEFo4fEqrGNU; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|Vmkuv|Vmkuo; bannerswitch=close"
+        "Cookie": "stat_uuid=1448431777546632295352; stat_fromWebUrl=; stat_ssid=1451048165810; bannerswitch=close; uname=jike_1325794; uid=4191045; code=QI5FCX; authcode=d0b0HUKFYeAZ6EWVOfOqz9ie1gbas%2BMher0WP8kj3iT%2BCDkJa12DNjagnE5CvSUVhJzU6DsBOjTvxUUdTsosjOkkdrxPdrzZQgjbthE%2FT0fRnG8r5Iz0QJMVjpxdBkoP; level_id=3; is_expire=0; domain=7912760454; QINGCLOUDELB=84b10773c6746376c2c7ad1fac354ddfd562b81daa2a899c46d3a1e304c7eb2b|Vm/MZ|Vm/Ka; Hm_lvt_f3c68d41bda15331608595c98e9c3915=1449046287,1449733790,1449819994,1450166887; Hm_lpvt_f3c68d41bda15331608595c98e9c3915=1450167394; _ga=GA1.2.661554090.1447228532; undefined=; stat_isNew=0; MECHAT_LVTime=1450167394734; MECHAT_CKID=cookieVal=006600144533895193666809; connect.sid=s%3A54pbTf550mGbN1R6K7tTpwLZ4FT8AU-u.D3H724SYK%2FnykejuSftJ3zrF%2BYp%2FSjHi2Qur4pdCTaA"
     },
 
     downloadRes = function(course_id, path, cb){
